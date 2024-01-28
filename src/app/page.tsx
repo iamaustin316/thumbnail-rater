@@ -10,7 +10,6 @@ export default function Home() {
   const thumbnails = useQuery(api.thumbnails.getThumbnailsForUser);
   return (
     <main>
-      {isSignedIn ? <SignOutButton /> : <SignInButton />}
       {isSignedIn && (
         <form
           onSubmit={async (e) => {
