@@ -19,9 +19,20 @@ export const createThumbnail = mutation({
       userId: user.subject,
       aImage: args.aImage,
       bImage: args.bImage,
+      aVotes: 0,
+      bVotes: 0,
     })
   }
 })
+
+export const getThumbnail = query({
+  args: {thumbnailId: v.id("thumbnails")},
+  handler: async (ctx, args) => {
+
+    return await ctx.db
+      .get(args.thumbnailId)
+  },
+});
 
 export const getThumbnailsForUser = query({
   args: {},
@@ -38,3 +49,24 @@ export const getThumbnailsForUser = query({
       .collect();
   },
 });
+
+export const voteOnThumbnail = mutation({
+  args: {
+    thumbnailId: v.id("thumbnails"),
+    imageId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const thumbnail = await ctx.db.get(args.thumbnailId)
+    if(!thumbnail) {
+      throw new Error("Thumbnail not found")
+    } 
+    if(thumbnail.aImage === args.imageId) {
+      thumbnail.aVotes++
+      await ctx.db.patch(thumbnail._id, {aVotes: thumbnail.aVotes})
+    } else {
+      thumbnail.bVotes++
+      await ctx.db.patch(thumbnail._id, {bVotes: thumbnail.bVotes})
+    }
+    
+  }
+})
