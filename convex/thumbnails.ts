@@ -21,6 +21,7 @@ export const createThumbnail = mutation({
       bImage: args.bImage,
       aVotes: 0,
       bVotes: 0,
+      voteIds: []
     })
   }
 })
@@ -56,16 +57,28 @@ export const voteOnThumbnail = mutation({
     imageId: v.string(),
   },
   handler: async (ctx, args) => {
+    const userId = (await ctx.auth.getUserIdentity())?.subject;
+
+    if(!userId) {
+      throw new Error("Not authenticated")
+    }
+
     const thumbnail = await ctx.db.get(args.thumbnailId)
+
     if(!thumbnail) {
       throw new Error("Thumbnail not found")
-    } 
+    }
+
+    if (thumbnail.voteIds.includes(userId)) {
+      throw new Error("you've already voted");
+    }
+
     if(thumbnail.aImage === args.imageId) {
       thumbnail.aVotes++
-      await ctx.db.patch(thumbnail._id, {aVotes: thumbnail.aVotes})
+      await ctx.db.patch(thumbnail._id, {aVotes: thumbnail.aVotes,voteIds: [...thumbnail.voteIds ?? [],userId]})
     } else {
       thumbnail.bVotes++
-      await ctx.db.patch(thumbnail._id, {bVotes: thumbnail.bVotes})
+      await ctx.db.patch(thumbnail._id, {bVotes: thumbnail.bVotes,voteIds: [...thumbnail.voteIds ?? [],userId]})
     }
     
   }
