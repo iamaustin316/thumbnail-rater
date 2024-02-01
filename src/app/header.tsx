@@ -8,14 +8,25 @@ export function Header() {
   return (
     <div className="border-b">
       <div className="container flex justify-between items-center py-4">
-        <div>Thumbnail Rater</div>
+        <Link href="/" title="Thumbnail Rater">
+          Thumbnail Rater
+        </Link>
         <div className="flex gap-4">
           <SignedIn>
-            <Link href="/create">Create</Link>
+            <Link href="/dashboard" className="link">
+              Dashboard
+            </Link>
+            <Link href="/create" className="link">
+              Create
+            </Link>
           </SignedIn>
           <SignedOut>
-            <Link href="/pricing">Pricing</Link>
-            <Link href="/about">About</Link>
+            <Link href="/pricing" className="link">
+              Pricing
+            </Link>
+            <Link href="/about" className="link">
+              About
+            </Link>
           </SignedOut>
         </div>
         <div className="flex items-center gap-4">

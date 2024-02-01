@@ -41,7 +41,7 @@ export default function ThumbnailPage() {
   }
   return (
     <div className="py-12 flex flex-col gap-2">
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex flex-col gap-4 items-center">
           <h2 className="text-2xl font-bold text-center mb-4">Test Image A</h2>
           <Image
