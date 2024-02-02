@@ -1,11 +1,13 @@
-import { v } from 'convex/values'
-import { mutation, query} from './_generated/server'
+import { v } from 'convex/values';
+import { mutation, query} from './_generated/server';
+import { paginationOptsValidator } from "convex/server";
 
 export const createThumbnail = mutation({
   args: {
     title: v.string(),
     aImage: v.string(),
     bImage: v.string(),
+    profileImage: v.optional(v.string()),
   },
   handler: async(ctx, args) => {
     const user = await ctx.auth.getUserIdentity()
@@ -21,7 +23,8 @@ export const createThumbnail = mutation({
       bImage: args.bImage,
       aVotes: 0,
       bVotes: 0,
-      voteIds: []
+      voteIds: [],
+      profileImage: args.profileImage,
     })
   }
 })
@@ -32,6 +35,16 @@ export const getThumbnail = query({
 
     return await ctx.db
       .get(args.thumbnailId)
+  },
+});
+
+export const getRecentThumbnails = query({
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("thumbnails")
+      .order('asc')
+      .paginate(args.paginationOpts);
   },
 });
 

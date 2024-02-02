@@ -11,13 +11,16 @@ export function Header() {
         <Link href="/" title="Thumbnail Rater">
           Thumbnail Rater
         </Link>
-        <div className="flex gap-4">
+        <div className="flex gap-8">
           <SignedIn>
             <Link href="/dashboard" className="link">
               Dashboard
             </Link>
             <Link href="/create" className="link">
               Create
+            </Link>
+            <Link href="/explore" className="link">
+              Explore
             </Link>
           </SignedIn>
           <SignedOut>

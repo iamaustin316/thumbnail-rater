@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { getImageUrl } from "@/lib/utils";
+import { useSession } from "@clerk/nextjs";
 
 const defaultErrorState = {
   title: "",
@@ -27,6 +28,7 @@ export default function CreatePage() {
   const [errors, setErrors] = useState(defaultErrorState);
   const { toast } = useToast();
   const router = useRouter();
+  const session = useSession();
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-4xl font-bold">Create a Thumbnail Test</h1>
@@ -82,6 +84,7 @@ export default function CreatePage() {
             aImage: imageA,
             bImage: imageB,
             title,
+            profileImage: session.session?.user.imageUrl,
           });
 
           router.push(`/thumbnails/${thumbnailId}`);

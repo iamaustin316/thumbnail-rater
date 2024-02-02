@@ -10,6 +10,8 @@ import { shuffle } from "lodash";
 import { Button } from "@/components/ui/button";
 import { useSession } from "@clerk/nextjs";
 import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
+import { ChevronLeft, ThumbsUp } from "lucide-react";
 
 export default function ThumbnailPage() {
   const params = useParams<{ thumbnailId: Id<"thumbnails"> }>();
@@ -41,7 +43,7 @@ export default function ThumbnailPage() {
   }
   return (
     <div className="flex flex-col gap-2">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-8">
         <div className="flex flex-col gap-4 items-center">
           <h2 className="text-2xl font-bold text-center mb-4">Test Image A</h2>
           <Image
@@ -68,8 +70,9 @@ export default function ThumbnailPage() {
                 });
               }}
               size="lg"
-              className="w-fit"
+              className="w-fit flex gap-2 items-center text-md"
             >
+              <ThumbsUp />
               Vote A
             </Button>
           )}
@@ -100,13 +103,20 @@ export default function ThumbnailPage() {
                 });
               }}
               size="lg"
-              className="w-fit"
+              className="w-fit flex gap-2 items-center text-md"
             >
+              <ThumbsUp />
               Vote B
             </Button>
           )}
         </div>
       </div>
+      <Button asChild className="w-fit mx-auto">
+        <Link href="/explore">
+          <ChevronLeft />
+          Back Explore
+        </Link>
+      </Button>
     </div>
   );
 }
