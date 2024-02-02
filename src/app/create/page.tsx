@@ -28,7 +28,7 @@ export default function CreatePage() {
   const { toast } = useToast();
   const router = useRouter();
   return (
-    <div className="py-12 flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <h1 className="text-4xl font-bold">Create a Thumbnail Test</h1>
       <p className="text-lg max-w-md mb-8">
         Create your test so that other people can vote on their favorite
